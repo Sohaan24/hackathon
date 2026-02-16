@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import {
   Box,
   Container,
@@ -14,7 +15,6 @@ import {
   Progress,
   SimpleGrid,
 } from '@chakra-ui/react'
-// Card image removed - now in LandingPage
 import { motion } from 'framer-motion'
 import {
   FiCheck,
@@ -26,7 +26,14 @@ import {
   FiDollarSign,
   FiStar,
   FiShield,
+  FiLogOut,
+  FiCreditCard,
+  FiTarget,
+  FiAward,
+  FiPieChart,
 } from 'react-icons/fi'
+import Chatbot from './Chatbot'
+import { useAuth } from '../context/AuthContext'
 
 const MotionBox = motion(Box)
 
@@ -44,7 +51,7 @@ const GlassCard = ({ children, ...props }) => (
 )
 
 // Circular Score Gauge Component
-const CreditScoreGauge = ({ score = 785, maxScore = 900 }) => {
+const CreditScoreGauge = ({ score = 750, maxScore = 900 }) => {
   const percentage = (score / maxScore) * 100
   const circumference = 2 * Math.PI * 120
   const strokeDashoffset = circumference - (percentage / 100) * circumference * 0.75
@@ -161,7 +168,7 @@ const CreditScoreGauge = ({ score = 785, maxScore = 900 }) => {
 }
 
 // User Profile Card
-const UserProfileCard = () => (
+const UserProfileCard = ({ userData, avgRating, monthlyIncome }) => (
   <MotionBox
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
@@ -181,16 +188,18 @@ const UserProfileCard = () => (
           justifyContent="center"
           border="3px solid rgba(255, 255, 255, 0.1)"
         >
-          <Text fontSize="2xl" fontWeight="bold" color="white">RK</Text>
+          <Text fontSize="2xl" fontWeight="bold" color="white">
+            {userData?.name?.split(' ').map(n => n[0]).join('') || 'RK'}
+          </Text>
         </Box>
 
         {/* Name & Job */}
         <Box textAlign="center">
           <Text color="white" fontSize="xl" fontWeight="semibold">
-            Rahul Kumar
+            {userData?.name || 'Rahul Kumar'}
           </Text>
           <Text color="#94A3B8" fontSize="sm">
-            Delivery Partner
+            Gig Worker
           </Text>
         </Box>
 
@@ -238,7 +247,7 @@ const UserProfileCard = () => (
               <Icon as={FiDollarSign} color="#10B981" boxSize={4} />
               <Text color="#94A3B8" fontSize="sm">Monthly Income</Text>
             </HStack>
-            <Text color="white" fontSize="sm" fontWeight="medium">₹45,000</Text>
+            <Text color="white" fontSize="sm" fontWeight="medium">₹{monthlyIncome?.toLocaleString() || '45,000'}</Text>
           </Flex>
 
           <Flex
@@ -253,7 +262,7 @@ const UserProfileCard = () => (
               <Icon as={FiStar} color="#F59E0B" boxSize={4} />
               <Text color="#94A3B8" fontSize="sm">Platform Rating</Text>
             </HStack>
-            <Text color="white" fontSize="sm" fontWeight="medium">4.8★ Avg</Text>
+            <Text color="white" fontSize="sm" fontWeight="medium">{avgRating || '4.8'}★ Avg</Text>
           </Flex>
         </VStack>
       </VStack>
@@ -305,7 +314,7 @@ const InsightItem = ({ icon, text, type = 'success', delay }) => {
 }
 
 // Insights Panel
-const InsightsPanel = () => (
+const InsightsPanel = ({ insights }) => (
   <MotionBox
     initial={{ opacity: 0, x: 20 }}
     animate={{ opacity: 1, x: 0 }}
@@ -321,48 +330,54 @@ const InsightsPanel = () => (
       </Flex>
 
       <VStack spacing={3} align="stretch">
-        <InsightItem
-          icon={FiCheck}
-          text="12 Months consistent electricity payments"
-          type="success"
-          delay={0.2}
-        />
-        <InsightItem
-          icon={FiStar}
-          text="Top-rated Driver (4.9★ on Uber)"
-          type="success"
-          delay={0.3}
-        />
-        <InsightItem
-          icon={FiAlertTriangle}
-          text="Irregular Income detected (High variance)"
-          type="warning"
-          delay={0.4}
-        />
-        <InsightItem
-          icon={FiTrendingUp}
-          text="Income trending up 15% over 6 months"
-          type="info"
-          delay={0.5}
-        />
-        <InsightItem
-          icon={FiCheck}
-          text="No existing loans or EMIs detected"
-          type="success"
-          delay={0.6}
-        />
+        {insights?.map((insight, idx) => (
+          <InsightItem
+            key={idx}
+            icon={insight.icon}
+            text={insight.text}
+            type={insight.type}
+            delay={0.2 + idx * 0.1}
+          />
+        )) || (
+          <>
+            <InsightItem
+              icon={FiCheck}
+              text="Transaction history analyzed successfully"
+              type="success"
+              delay={0.2}
+            />
+            <InsightItem
+              icon={FiStar}
+              text="Platform ratings verified"
+              type="success"
+              delay={0.3}
+            />
+            <InsightItem
+              icon={FiTrendingUp}
+              text="Income trending up over 6 months"
+              type="info"
+              delay={0.4}
+            />
+            <InsightItem
+              icon={FiCheck}
+              text="No existing loans detected"
+              type="success"
+              delay={0.5}
+            />
+          </>
+        )}
       </VStack>
     </GlassCard>
   </MotionBox>
 )
 
 // Score Factors Component
-const ScoreFactors = () => {
-  const factors = [
-    { label: 'Payment History', value: 92, color: '#10B981' },
-    { label: 'Income Stability', value: 78, color: '#F59E0B' },
-    { label: 'Platform Tenure', value: 85, color: '#3B82F6' },
-    { label: 'Ratings Score', value: 95, color: '#10B981' },
+const ScoreFactors = ({ factors }) => {
+  const defaultFactors = [
+    { label: 'Transaction Frequency', value: factors?.transactionFrequency || 85, color: '#10B981' },
+    { label: 'Income Consistency', value: factors?.incomeConsistency || 78, color: '#F59E0B' },
+    { label: 'Platform Ratings', value: factors?.platformRating || 90, color: '#3B82F6' },
+    { label: 'Account Tenure', value: factors?.accountTenure || 75, color: '#10B981' },
   ]
 
   return (
@@ -376,8 +391,8 @@ const ScoreFactors = () => {
           Score Breakdown
         </Text>
         <VStack spacing={4} align="stretch">
-          {factors.map((factor, index) => (
-            <Box key={factor.label}>
+          {defaultFactors.map((factor, index) => (
+            <Box key={index}>
               <Flex justify="space-between" mb={2}>
                 <Text color="#94A3B8" fontSize="sm">{factor.label}</Text>
                 <Text color="white" fontSize="sm" fontWeight="medium">{factor.value}%</Text>
@@ -407,25 +422,34 @@ const ScoreFactors = () => {
 }
 
 // Connected Platforms Component
-const ConnectedPlatforms = ({ platformType }) => {
-  const allPlatforms = {
-    food: [
-      { name: 'Swiggy', rating: '4.9★', orders: '856', icon: 'S', bg: 'orange.500' },
-      { name: 'Zomato', rating: '4.7★', orders: '432', icon: 'Z', bg: 'red.500' },
-    ],
-    ride: [
-      { name: 'Uber', rating: '4.8★', rides: '1,240', icon: 'U', bg: 'black' },
-      { name: 'Ola', rating: '4.6★', rides: '980', icon: 'O', bg: 'green.500' },
-    ],
-    both: [
-      { name: 'Swiggy', rating: '4.9★', orders: '856', icon: 'S', bg: 'orange.500' },
-      { name: 'Zomato', rating: '4.7★', orders: '432', icon: 'Z', bg: 'red.500' },
-      { name: 'Uber', rating: '4.8★', rides: '1,240', icon: 'U', bg: 'black' },
-      { name: 'Ola', rating: '4.6★', rides: '980', icon: 'O', bg: 'green.500' },
-    ],
+const ConnectedPlatforms = ({ platformRatings }) => {
+  // Convert platform ratings to display format
+  const platformConfig = {
+    uber: { name: 'Uber', icon: 'U', bg: 'black', type: 'rides' },
+    ola: { name: 'Ola', icon: 'O', bg: 'green.500', type: 'rides' },
+    zomato: { name: 'Zomato', icon: 'Z', bg: 'red.500', type: 'orders' },
+    swiggy: { name: 'Swiggy', icon: 'S', bg: 'orange.500', type: 'orders' },
   }
 
-  const platforms = allPlatforms[platformType] || allPlatforms.both
+  const platforms = Object.entries(platformRatings || {}).map(([key, data]) => {
+    const config = platformConfig[key] || { name: key, icon: key[0].toUpperCase(), bg: 'gray.500', type: 'items' }
+    return {
+      name: config.name,
+      rating: `${data.rating}★`,
+      count: data.totalRides || data.totalDeliveries || 0,
+      icon: config.icon,
+      bg: config.bg,
+      type: config.type
+    }
+  })
+
+  // If no platforms, show default
+  if (platforms.length === 0) {
+    platforms.push(
+      { name: 'Uber', rating: '4.8★', count: 1240, icon: 'U', bg: 'black', type: 'rides' },
+      { name: 'Swiggy', rating: '4.9★', count: 856, icon: 'S', bg: 'orange.500', type: 'orders' }
+    )
+  }
 
   return (
     <MotionBox
@@ -481,7 +505,7 @@ const ConnectedPlatforms = ({ platformType }) => {
                   <Icon as={FiCheck} color="#10B981" boxSize={5} />
                 </HStack>
                 <Text color="#94A3B8" fontSize="xs" mt={1}>
-                  {platform.rides ? `${platform.rides} rides` : `${platform.orders} orders`}
+                  {platform.count?.toLocaleString()} {platform.type}
                 </Text>
               </Flex>
             </MotionBox>
@@ -496,7 +520,33 @@ const ConnectedPlatforms = ({ platformType }) => {
 const Dashboard = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const platformType = location.state?.platform || 'both'
+  const { logout, user } = useAuth()
+  const [gigscoreData, setGigscoreData] = useState(null)
+  
+  useEffect(() => {
+    // Load data from localStorage or location state
+    const storedData = localStorage.getItem('gigscoreData')
+    if (location.state?.gigscoreData) {
+      setGigscoreData(location.state.gigscoreData)
+    } else if (storedData) {
+      setGigscoreData(JSON.parse(storedData))
+    }
+  }, [location.state])
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+  
+  // Calculate derived values
+  const score = gigscoreData?.scoreData?.score || 750
+  const platformRatings = gigscoreData?.platformRatings || {}
+  const platforms = Object.keys(platformRatings)
+  const avgRating = platforms.length > 0 
+    ? (platforms.reduce((sum, p) => sum + parseFloat(platformRatings[p].rating), 0) / platforms.length).toFixed(1)
+    : '4.8'
+  const monthlyIncome = gigscoreData?.upiData?.analysis?.avgMonthlyIncome || 45000
+  const factors = gigscoreData?.scoreData?.factors || {}
 
   return (
     <Box bg="#020617" minH="100vh">
@@ -522,7 +572,7 @@ const Dashboard = () => {
                 color="#94A3B8"
                 _hover={{ color: 'white', bg: 'rgba(255, 255, 255, 0.1)' }}
               >
-                Back
+                Home
               </Button>
               <HStack spacing={2}>
                 <Box
@@ -541,19 +591,33 @@ const Dashboard = () => {
                 </Text>
               </HStack>
             </HStack>
-            <Badge
-              bg="rgba(16, 185, 129, 0.15)"
-              color="#10B981"
-              px={3}
-              py={1}
-              rounded="full"
-              fontSize="sm"
-            >
-              <Flex align="center" gap={1}>
-                <Icon as={FiCheck} boxSize={4} />
-                Analysis Complete
-              </Flex>
-            </Badge>
+            <HStack spacing={4}>
+              <Badge
+                bg="rgba(16, 185, 129, 0.15)"
+                color="#10B981"
+                px={3}
+                py={1}
+                rounded="full"
+                fontSize="sm"
+              >
+                <Flex align="center" gap={1}>
+                  <Icon as={FiCheck} boxSize={4} />
+                  Analysis Complete
+                </Flex>
+              </Badge>
+              <Button
+                size="sm"
+                bg="transparent"
+                border="1px solid rgba(239, 68, 68, 0.5)"
+                color="#EF4444"
+                px={3}
+                onClick={handleLogout}
+                leftIcon={<Icon as={FiLogOut} boxSize={3} />}
+                _hover={{ bg: 'rgba(239, 68, 68, 0.1)' }}
+              >
+                Logout
+              </Button>
+            </HStack>
           </Flex>
         </Container>
       </Box>
@@ -586,7 +650,11 @@ const Dashboard = () => {
           >
             {/* Left Panel - User Profile */}
             <GridItem rowSpan={{ base: 1, lg: 2 }}>
-              <UserProfileCard />
+              <UserProfileCard 
+                userData={user}
+                avgRating={avgRating}
+                monthlyIncome={monthlyIncome}
+              />
             </GridItem>
 
             {/* Center Panel - Credit Score */}
@@ -602,7 +670,7 @@ const Dashboard = () => {
                   >
                     Gig-Score Credit Rating
                   </Text>
-                  <CreditScoreGauge score={785} />
+                  <CreditScoreGauge score={score} />
                 </Flex>
               </GlassCard>
             </GridItem>
@@ -614,14 +682,121 @@ const Dashboard = () => {
 
             {/* Bottom Center - Score Factors */}
             <GridItem>
-              <ScoreFactors />
+              <ScoreFactors factors={factors} />
             </GridItem>
           </Grid>
 
           {/* Connected Platforms - Full Width */}
           <Box mt={6} w="full">
-            <ConnectedPlatforms platformType={platformType} />
+            <ConnectedPlatforms platformRatings={platformRatings} />
           </Box>
+
+          {/* Financial Recommendations */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            mt={6}
+            w="full"
+          >
+            <GlassCard p={6}>
+              <Flex align="center" gap={2} mb={5}>
+                <Icon as={FiTarget} color="#F59E0B" boxSize={5} />
+                <Text color="white" fontSize="lg" fontWeight="semibold">
+                  Financial Recommendations
+                </Text>
+              </Flex>
+              <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+                {/* Loan Eligibility Card */}
+                <Box
+                  p={4}
+                  bg={score >= 700 ? 'rgba(16, 185, 129, 0.1)' : score >= 600 ? 'rgba(245, 158, 11, 0.1)' : 'rgba(239, 68, 68, 0.1)'}
+                  border={`1px solid ${score >= 700 ? 'rgba(16, 185, 129, 0.2)' : score >= 600 ? 'rgba(245, 158, 11, 0.2)' : 'rgba(239, 68, 68, 0.2)'}`}
+                  rounded="xl"
+                >
+                  <Flex align="center" gap={2} mb={3}>
+                    <Icon as={FiCreditCard} color={score >= 700 ? '#10B981' : score >= 600 ? '#F59E0B' : '#EF4444'} boxSize={5} />
+                    <Text color="white" fontWeight="semibold">Loan Eligibility</Text>
+                  </Flex>
+                  <Text color="white" fontSize="2xl" fontWeight="bold" mb={1}>
+                    ₹{score >= 750 ? '5,00,000' : score >= 700 ? '3,00,000' : score >= 650 ? '1,50,000' : '75,000'}
+                  </Text>
+                  <Text color="#94A3B8" fontSize="sm">
+                    Max eligible amount at {score >= 750 ? '10.5%' : score >= 700 ? '12%' : score >= 650 ? '14%' : '18%'} interest
+                  </Text>
+                </Box>
+
+                {/* Credit Card Tier */}
+                <Box
+                  p={4}
+                  bg="rgba(139, 92, 246, 0.1)"
+                  border="1px solid rgba(139, 92, 246, 0.2)"
+                  rounded="xl"
+                >
+                  <Flex align="center" gap={2} mb={3}>
+                    <Icon as={FiAward} color="#8B5CF6" boxSize={5} />
+                    <Text color="white" fontWeight="semibold">Credit Card Tier</Text>
+                  </Flex>
+                  <Text color="white" fontSize="2xl" fontWeight="bold" mb={1}>
+                    {score >= 750 ? 'Premium' : score >= 700 ? 'Gold' : score >= 650 ? 'Silver' : 'Basic'}
+                  </Text>
+                  <Text color="#94A3B8" fontSize="sm">
+                    {score >= 750 ? 'Lounge access, 4X rewards' : score >= 700 ? '2X rewards, cashback' : score >= 650 ? 'Basic rewards' : 'Build credit history'}
+                  </Text>
+                </Box>
+
+                {/* Investment Readiness */}
+                <Box
+                  p={4}
+                  bg="rgba(59, 130, 246, 0.1)"
+                  border="1px solid rgba(59, 130, 246, 0.2)"
+                  rounded="xl"
+                >
+                  <Flex align="center" gap={2} mb={3}>
+                    <Icon as={FiPieChart} color="#3B82F6" boxSize={5} />
+                    <Text color="white" fontWeight="semibold">Investment Profile</Text>
+                  </Flex>
+                  <Text color="white" fontSize="2xl" fontWeight="bold" mb={1}>
+                    {score >= 750 ? 'Aggressive' : score >= 700 ? 'Moderate' : score >= 650 ? 'Conservative' : 'Beginner'}
+                  </Text>
+                  <Text color="#94A3B8" fontSize="sm">
+                    {score >= 750 ? 'Equity, Mid/Small caps' : score >= 700 ? 'Large cap, Hybrid funds' : score >= 650 ? 'Debt funds, FDs' : 'Start with liquid funds'}
+                  </Text>
+                </Box>
+              </SimpleGrid>
+
+              {/* Next Steps */}
+              <Box mt={5} p={4} bg="rgba(255, 255, 255, 0.03)" rounded="xl">
+                <Text color="#F59E0B" fontSize="sm" fontWeight="semibold" mb={2}>
+                  💡 Next Steps to Improve Your Score
+                </Text>
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
+                  {score < 800 && (
+                    <Flex align="center" gap={2}>
+                      <Icon as={FiCheck} color="#10B981" boxSize={4} />
+                      <Text color="#94A3B8" fontSize="sm">Maintain 4.8+ rating on all platforms</Text>
+                    </Flex>
+                  )}
+                  {score < 750 && (
+                    <Flex align="center" gap={2}>
+                      <Icon as={FiCheck} color="#10B981" boxSize={4} />
+                      <Text color="#94A3B8" fontSize="sm">Increase monthly transactions by 20%</Text>
+                    </Flex>
+                  )}
+                  {score < 700 && (
+                    <Flex align="center" gap={2}>
+                      <Icon as={FiCheck} color="#10B981" boxSize={4} />
+                      <Text color="#94A3B8" fontSize="sm">Connect more gig platforms</Text>
+                    </Flex>
+                  )}
+                  <Flex align="center" gap={2}>
+                    <Icon as={FiCheck} color="#10B981" boxSize={4} />
+                    <Text color="#94A3B8" fontSize="sm">Keep income consistent for 6+ months</Text>
+                  </Flex>
+                </SimpleGrid>
+              </Box>
+            </GlassCard>
+          </MotionBox>
 
           {/* Action Buttons */}
           <MotionBox
@@ -656,8 +831,11 @@ const Dashboard = () => {
           </Box>
         </Container>
       </Box>
+      
+      {/* AI Chatbot */}
+      <Chatbot gigScore={score} />
     </Box>
   )
 }
 
-export default Dashboard ;
+export default Dashboard;

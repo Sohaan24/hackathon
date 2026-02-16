@@ -34,8 +34,11 @@ import {
   FiBriefcase,
   FiDollarSign,
   FiUser,
+  FiLogOut,
 } from 'react-icons/fi'
 import { BsQrCode } from 'react-icons/bs'
+import PlatformIntegration from './PlatformIntegration'
+import { useAuth } from '../context/AuthContext'
 
 const MotionBox = motion(Box)
 const MotionFlex = motion(Flex)
@@ -734,12 +737,16 @@ const FileUpload = ({ files, setFiles, onAnalyze, selectedPlatform, setSelectedP
 
 // Main Landing Page Component
 const LandingPage = () => {
-  const [files, setFiles] = useState([])
-  const [selectedPlatform, setSelectedPlatform] = useState(null)
   const navigate = useNavigate()
+  const { isAuthenticated, logout, user } = useAuth()
 
-  const handleAnalyze = () => {
-    navigate('/dashboard', { state: { platform: selectedPlatform } })
+  const handleSignIn = () => {
+    navigate('/login')
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
   }
 
   return (
@@ -792,24 +799,51 @@ const LandingPage = () => {
               >
                 For Lenders
               </Text>
-              <Button
-                size="md"
-                bg="transparent"
-                border="2px solid rgba(255, 255, 255, 0.3)"
-                color="white"
-                px={6}
-                fontWeight="semibold"
-                borderRadius="xl"
-                _hover={{ 
-                  bg: 'rgba(59, 130, 246, 0.2)', 
-                  borderColor: '#3B82F6',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)'
-                }}
-                transition="all 0.3s"
-              >
-                Sign In
-              </Button>
+              {isAuthenticated ? (
+                <HStack spacing={4}>
+                  <Text color="#10B981" fontSize="sm" fontWeight="medium">
+                    {user?.name}
+                  </Text>
+                  <Button
+                    size="md"
+                    bg="transparent"
+                    border="2px solid rgba(239, 68, 68, 0.5)"
+                    color="#EF4444"
+                    px={4}
+                    fontWeight="semibold"
+                    borderRadius="xl"
+                    onClick={handleLogout}
+                    leftIcon={<Icon as={FiLogOut} />}
+                    _hover={{ 
+                      bg: 'rgba(239, 68, 68, 0.1)', 
+                      borderColor: '#EF4444',
+                    }}
+                    transition="all 0.3s"
+                  >
+                    Logout
+                  </Button>
+                </HStack>
+              ) : (
+                <Button
+                  size="md"
+                  bg="transparent"
+                  border="2px solid rgba(255, 255, 255, 0.3)"
+                  color="white"
+                  px={6}
+                  fontWeight="semibold"
+                  borderRadius="xl"
+                  onClick={handleSignIn}
+                  _hover={{ 
+                    bg: 'rgba(59, 130, 246, 0.2)', 
+                    borderColor: '#3B82F6',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)'
+                  }}
+                  transition="all 0.3s"
+                >
+                  Sign In
+                </Button>
+              )}
             </HStack>
           </Flex>
         </Container>
@@ -1200,9 +1234,9 @@ const LandingPage = () => {
       </Box>
 
       {/* ============================================ */}
-      {/* File Upload Section (DARK Background) */}
+      {/* Platform Integration Section (DARK Background) */}
       {/* ============================================ */}
-      <Box bg="#020617" py={20}>
+      <Box bg="#020617" py={20} id="get-started">
         <Container maxW="7xl" px={{ base: 4, md: 8 }}>
           <MotionBox
             initial={{ opacity: 0, y: 20 }}
@@ -1213,25 +1247,43 @@ const LandingPage = () => {
             mb={12}
           >
             <Text color="#3B82F6" fontSize="sm" fontWeight="semibold" mb={2} textTransform="uppercase" letterSpacing="wider">
-              Try It Now
+              Get Your Gig-Score
             </Text>
             <Text color="white" fontSize={{ base: '3xl', md: '4xl' }} fontWeight="bold" mb={4}>
-              Upload documents to get started
+              Connect your accounts to get started
             </Text>
             <Text color="#94A3B8" fontSize="lg" maxW="2xl" mx="auto">
-              Upload bank statements, utility bills, or gig platform data to generate a credit score.
+              Link your UPI ID and gig platform credentials to generate your personalized Gig-Score.
             </Text>
           </MotionBox>
 
-          <Box mx="auto">
-            <FileUpload 
-              files={files} 
-              setFiles={setFiles} 
-              onAnalyze={handleAnalyze}
-              selectedPlatform={selectedPlatform}
-              setSelectedPlatform={setSelectedPlatform}
-            />
-          </Box>
+          {isAuthenticated ? (
+            <Box mx="auto">
+              <PlatformIntegration />
+            </Box>
+          ) : (
+            <VStack spacing={6} py={12}>
+              <Text color="#94A3B8" fontSize="lg">
+                Please sign in to generate your Gig-Score
+              </Text>
+              <Button
+                size="lg"
+                bg="linear-gradient(135deg, #3B82F6 0%, #10B981 100%)"
+                color="white"
+                px={8}
+                borderRadius="xl"
+                fontWeight="bold"
+                onClick={handleSignIn}
+                _hover={{ 
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 30px rgba(59, 130, 246, 0.4)'
+                }}
+                transition="all 0.3s"
+              >
+                Sign In to Continue
+              </Button>
+            </VStack>
+          )}
         </Container>
       </Box>
 
