@@ -1,156 +1,190 @@
- # 🚀 Gig-Score  
-### AI-Powered Alternative Credit Scoring for Freelancers & Gig Workers  
+ <!-- PROJECT HEADER -->
+<h1 align="center">🚀 Gig-Score</h1>
+<h3 align="center">AI-Powered Alternative Credit Scoring Platform</h3>
 
 <p align="center">
-  <b>Enabling Fair Credit Access Through Digital Income Intelligence</b>
+  <b>Empowering Freelancers & Gig Workers with Fair Credit Access 💳📊</b><br/>
+  <i>Built for Financial Inclusion • Designed for the Digital Economy</i>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Hackathon_Project-blue" />
+  <img src="https://img.shields.io/badge/Domain-FinTech-success" />
+  <img src="https://img.shields.io/badge/Built_with-React.js-61DAFB" />
+  <img src="https://img.shields.io/badge/UI-TailwindCSS-38B2AC" />
+  <img src="https://img.shields.io/badge/License-MIT-orange" />
 </p>
 
 ---
 
 ## 🌐 Project Repository  
 
-🔗 GitHub: https://github.com/Sohaan24/hackathon  
+<p align="center">
+🔗 <b>GitHub:</b><br/>
+👉 <a href="https://github.com/Sohaan24/hackathon">https://github.com/Sohaan24/hackathon</a>
+</p>
 
 ---
 
-## 🏆 Hackathon Submission  
+# 🏆 INNOVERSE 2026 Hackathon Submission  
 
-**Hackathon:** INNOVERSE 2026  
-**Team Name:** Coders Squad  
-**Project Title:** Gig-Score – AI-Based Credit Evaluation Platform  
-
-**Objective:**  
-To build a high-fidelity, production-ready FinTech dashboard that leverages alternative data and AI-driven analytics to provide fair credit assessment for gig workers and freelancers.
-
----
-
-## 👥 Team Members  
-
-- Soham Chopade  
-- Sohan Chaudhari  
-- Sanket Shevale  
-- Sarthak Fursule  
+| Category | Details |
+|----------|----------|
+| **Team Name** | Coders Squad |
+| **Project Title** | Gig-Score |
+| **Domain** | Financial Inclusion & Alternative Credit Scoring |
+| **Objective** | Build a high-fidelity, production-ready FinTech dashboard for gig workers |
 
 ---
 
-## 📌 Problem Statement  
+# 👥 Team Coders Squad  
 
-India is experiencing a growing **“credit invisible” crisis**.  
-
-Millions of gig workers, freelancers, and first-time earners actively participate in the digital economy through platforms such as ride-hailing, delivery services, and freelance marketplaces. However, they face significant barriers when applying for formal credit due to:
-
-- Lack of CIBIL credit history  
-- Absence of salary slips or employer verification  
-- Irregular income patterns  
-- Thin-file or non-existent credit records  
-
-Despite maintaining active bank accounts and using UPI-based digital transactions, they are frequently classified as high-risk borrowers.
-
-As a result, many rely on informal lenders charging interest rates as high as 40–50%, leading to financial exclusion and long-term debt cycles.
+<p align="center">
+👨‍💻 Soham Chopade &nbsp; • &nbsp;
+👨‍💻 Sohan Chaudhari &nbsp; • &nbsp;
+👨‍💻 Sanket Shevale &nbsp; • &nbsp;
+👨‍💻 Sarthak Fursule
+</p>
 
 ---
 
-## 💡 Proposed Solution – Gig-Score  
+# 📌 The Problem  
 
-Gig-Score is an AI-powered alternative credit scoring platform designed specifically for gig workers.
+India is facing a growing **“Credit Invisible” Crisis**.
 
-Instead of relying solely on traditional salary-based evaluation models, Gig-Score analyzes:
+Millions of gig workers and freelancers earn through:
 
-- Platform payout history  
-- Income consistency and trends  
-- Work activity levels  
-- Behavioral financial signals  
-- Cash-flow stability  
+🚕 Ride-hailing platforms  
+🍔 Delivery services  
+💻 Freelancing marketplaces  
+📱 Digital content platforms  
 
-The system converts this alternative data into a structured **Gig Credit Score**, enabling financial institutions to assess creditworthiness more accurately and fairly.
+Yet they struggle to access formal credit because:
 
----
+- ❌ No CIBIL credit history  
+- ❌ No salary slips  
+- ❌ No employer verification  
+- ❌ Irregular income patterns  
 
-## 🧠 Core Features  
+Despite active UPI usage and bank accounts, they are treated as high-risk borrowers.
 
-### 1️⃣ AI-Based Gig Credit Score  
-- 6–12 month income trend analysis  
-- Income stability modeling  
-- Risk classification (Low / Medium / High)  
-- Alternative data-driven scoring  
-
-### 2️⃣ Modern FinTech Dashboard  
-- Interactive credit score meter  
-- Income growth visualization  
-- Earnings summary analytics  
-- Risk-level indicators  
-- AI-generated insights  
-
-### 3️⃣ Loan Eligibility Prediction  
-- Estimated loan eligibility amount  
-- Suggested interest rate range  
-- EMI affordability estimation  
-
-### 4️⃣ Secure & Production-Ready UI  
-- Clean, professional FinTech design  
-- Fully responsive layout  
-- Trust-focused interface  
+This forces many to rely on **informal lenders charging 40–50% interest**, leading to financial exclusion and debt traps.
 
 ---
 
-## 🛠 Technology Stack  
+# 💡 Our Solution – Gig-Score  
 
-### Frontend  
+Gig-Score is an **AI-powered alternative credit scoring platform** built specifically for the gig economy.
+
+Instead of traditional salary-based models, we analyze:
+
+📊 Platform payout history  
+📈 Income consistency & trends  
+⭐ Work activity & ratings  
+💳 Cash-flow behavior  
+
+We convert this alternative data into a transparent and reliable **Gig Credit Score**.
+
+---
+
+# 🧠 Core Features  
+
+### 🔹 AI-Based Gig Credit Score
+✔ 6–12 month income analysis  
+✔ Stability index calculation  
+✔ Risk categorization (Low / Medium / High)  
+✔ Alternative data-driven scoring  
+
+---
+
+### 🔹 Modern FinTech Dashboard
+📊 Credit score meter  
+📈 Income growth visualization  
+📋 Earnings summary analytics  
+🟢 Risk-level indicators  
+🤖 AI-generated financial insights  
+
+---
+
+### 🔹 Loan Eligibility Engine
+💰 Estimated loan amount  
+📉 Suggested interest range  
+🧮 EMI affordability estimation  
+
+---
+
+### 🔹 Secure & Production-Ready UI
+🎨 Clean FinTech design  
+📱 Fully responsive layout  
+🔐 Trust-focused architecture  
+
+---
+
+# 🛠 Technology Stack  
+
+### 🎨 Frontend  
 - React.js  
 - Tailwind CSS  
-- Recharts (Data Visualization)  
-- Framer Motion (UI Animations)  
+- Recharts  
+- Framer Motion  
 
-### Backend (Future Scope)  
+### ⚙ Backend (Future Scope)  
 - Node.js / Express  
-- AI/ML-based scoring engine  
+- AI/ML scoring engine  
 - Secure API integrations  
 
 ---
 
-## 📊 System Workflow  
+# 📊 System Workflow  
 
-1. User connects gig income platforms  
-2. System securely collects financial activity data  
-3. AI analyzes income stability and behavioral patterns  
-4. Gig Credit Score is generated  
-5. Loan eligibility insights are displayed  
+```
+User Connects Platforms
+        ↓
+Income & Activity Data Collected
+        ↓
+AI Stability & Risk Analysis
+        ↓
+Gig Credit Score Generated
+        ↓
+Loan Eligibility Displayed
+```
 
 ---
 
-## 🎯 Impact & Value Proposition  
+# 🎯 Impact  
 
 Gig-Score aims to:
 
-- Promote financial inclusion for gig workers  
-- Reduce dependency on informal high-interest lending  
-- Enable fair and data-driven credit assessment  
-- Support India’s expanding digital workforce  
-- Provide financial institutions with alternative borrower insights  
+✔ Promote financial inclusion  
+✔ Reduce high-interest informal lending  
+✔ Enable fair borrower evaluation  
+✔ Support India's growing digital workforce  
+✔ Help lenders assess alternative borrowers  
 
-We believe creditworthiness should be determined by financial behavior — not employment type.
+We believe creditworthiness should be based on **financial behavior**, not employment type.
 
 ---
 
-## 🔐 Security & Privacy  
+# 🔐 Security & Privacy  
 
 - Encrypted data processing  
-- Secure authentication protocols  
+- Secure authentication  
 - Privacy-first architecture  
-- Responsible use of alternative data  
+- Responsible alternative data usage  
 
 ---
 
-## 🚀 Future Roadmap  
+# 🚀 Future Roadmap  
 
-- Real-time integration with gig platforms  
-- Advanced machine learning credit models  
-- Partnerships with banks and NBFCs  
-- Micro-credit solutions for gig workers  
-- Insurance and pension integration  
+- Real-time gig platform integrations  
+- Advanced ML-based risk modeling  
+- Bank & NBFC partnerships  
+- Micro-credit products  
+- Insurance & pension integration  
 
 ---
 
 <p align="center">
-  <b>Built with dedication at INNOVERSE 2026 Hackathon by Team Coders Squad</b>
+  <b>🚀 Built with passion at INNOVERSE 2026 by Team Coders Squad</b><br/>
+  <i>Reimagining Credit for the Digital Workforce</i>
 </p>
