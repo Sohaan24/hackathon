@@ -12,10 +12,9 @@
 -
 ## 🌐 Project Repository  
 
-<p align="center">
 🔗 <b>GitHub:</b><br/>
 👉 <a href="https://github.com/Sohaan24/hackathon">https://github.com/Sohaan24/hackathon</a>
-</p>
+ 
 
 ---
 
