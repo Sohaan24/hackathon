@@ -17,8 +17,11 @@
 ## 🏆 Hackathon Submission
 
 **Hackathon Name:**INNOVERSE
+
 **Team Name:** Coders Squad
+
 **Project:**   "Gig-Score" - An AI-Powered Credit Scoring Platform for Freelancers & Gig Workers.
+
 *Goal:* Build a high-fidelity, modern FinTech dashboard that looks ready for production.
 ---
 
