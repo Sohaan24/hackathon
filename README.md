@@ -7,13 +7,7 @@
   <i>Built for Financial Inclusion • Designed for the Digital Economy</i>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Hackathon_Project-blue" />
-  <img src="https://img.shields.io/badge/Domain-FinTech-success" />
-  <img src="https://img.shields.io/badge/Built_with-React.js-61DAFB" />
-  <img src="https://img.shields.io/badge/UI-TailwindCSS-38B2AC" />
-  <img src="https://img.shields.io/badge/License-MIT-orange" />
-</p>
+ >
 
 ---
 
