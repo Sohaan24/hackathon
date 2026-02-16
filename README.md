@@ -36,17 +36,7 @@
 
 ## 📌 Problem Statement
 
-Millions of freelancers and gig workers in India face loan rejection because:
-
-- ❌ No salary slips  
-- ❌ No fixed monthly income  
-- ❌ Low or no CIBIL score  
-- ❌ Irregular earnings  
-
-Traditional banking systems are built for salaried employees, not gig workers.
-
-This leads to financial exclusion and dependence on high-interest informal lending.
-
+ India faces a credit invisible crisis where gig workers, freelancers, and first-time earners cannot get bank loans because they lack a CIBIL credit history and formal income proofs. Despite using UPI and having bank accounts, they remain thin-file customers, forcing them to rely on moneylenders charging 40–50% interest, leading to financial exclusion and debt traps.
 ---
 
 ## 💡 Our Solution – Gig-Score
